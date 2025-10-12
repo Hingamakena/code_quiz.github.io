@@ -10,6 +10,7 @@ header {
 main {
 	background-color: yellow;
 	color: orange;
+	height: 100vh;
 }
 footer {
 	color: red;
