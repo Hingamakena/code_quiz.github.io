@@ -1,3 +1,23 @@
+html, body {
+  height: 100%;
+  margin: 0;
 body {
-  background-color: green;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: space-between;
+}
+header {
+	background-color: green;
+  width: 100%;
+}
+main {
+	background-color: yellow;
+	color: orange;
+  flex-grow: 1;
+	height: 100%;
+}
+footer {
+	color: red;
+	background-color: green;
 }
