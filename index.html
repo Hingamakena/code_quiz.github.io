@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="static/css/index.css">
+		<link rel="stylesheet" href="index.css">
 	</head>
 	<body>
 		<header>
@@ -13,7 +13,24 @@
 			<input type="submit" value="20_seconds">
 			<input type="submit" value="30_seconds">
 		</div>
+			<div>
+				<span id="random_one">
+					
+				</span>
+			</div>
 
+			<div>
+				<span id="random_two">
+					
+				</span>
+			</div>
+			<style>
+				const random_one = Math.floor(Math.random() * 11);
+				const random_two = Math.floor(Math.random() * 11);
+
+				document.getElementById('random_one').innerText = random_one;
+				document.getElementById('random_two').innerText = random_two;
+			</style>
 		<div>
 			counter, time counter
 		</div>
