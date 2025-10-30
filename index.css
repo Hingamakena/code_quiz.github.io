@@ -8,17 +8,11 @@ body {
 	flex-direction: column;
 	justify-content: space-between;
 }
-header {
-	background-color: green;
-  width: 100%;
-}
-main {
-	background-color: yellow;
-	color: orange;
-  flex-grow: 1;
+#main {
 	height: 100%;
+	width: 100%;
 }
-footer {
-	color: red;
-	background-color: green;
+.answer_section {
+	flex: 1;
+	border: 1px solid black;
 }
