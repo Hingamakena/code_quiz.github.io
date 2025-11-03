@@ -18,6 +18,7 @@ main {
 	display: flex;
     justify-content: center;
     align-items: center;
+	font: 35px;
 }
 #outer_div {
 	display: flex;
