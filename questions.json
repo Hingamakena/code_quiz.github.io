@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "code": [
+      "let x = 5;",
+      "let y = 10;",
+      "let sum = x + y;",
+      "console.log(sum);"
+    ]
+  },
+  {
+    "id": 2,
+    "code": [
+      "// Calculate area of a rectangle",
+      "let width = 8;",
+      "let height = 6;",
+      "console.log(width * height);"
+    ]
+  },
+  {
+    "id": 3,
+    "code": [
+      "for (let i = 0; i < 3; i++) {",
+      "  console.log(i);",
+      "}",
+      "// End of loop"
+    ]
+  },
+  {
+    "id": 4,
+    "code": [
+      "const colors = ['red', 'green', 'blue'];",
+      "colors.forEach(c => console.log(c));",
+      "// Loops through colors",
+      "console.log('Done');"
+    ]
+  },
+  {
+    "id": 5,
+    "code": [
+      "let name = 'Ava';",
+      "let greeting = 'Hello ' + name;",
+      "// Display greeting",
+      "console.log(greeting);"
+    ]
+  },
+  {
+    "id": 6,
+    "code": [
+      "function add(a, b) {",
+      "  return a + b;",
+      "}",
+      "console.log(add(3, 4));"
+    ]
+  },
+  {
+    "id": 7,
+    "code": [
+      "let nums = [1, 2, 3];",
+      "let squared = nums.map(n => n * n);",
+      "// Print result",
+      "console.log(squared);"
+    ]
+  },
+  {
+    "id": 8,
+    "code": [
+      "const obj = { name: 'Max', age: 25 };",
+      "obj.age++;",
+      "console.log(obj);",
+      "// Age incremented"
+    ]
+  },
+  {
+    "id": 9,
+    "code": [
+      "let text = 'JavaScript';",
+      "let upper = text.toUpperCase();",
+      "console.log(upper);",
+      "// Convert to uppercase"
+    ]
+  },
+  {
+    "id": 10,
+    "code": [
+      "let a = 10, b = 2;",
+      "let div = a / b;",
+      "console.log(div);",
+      "// Division result"
+    ]
+  },
+  {
+    "id": 11,
+    "code": [
+      "const even = [2, 4, 6, 8];",
+      "const total = even.reduce((a, b) => a + b);",
+      "console.log(total);",
+      "// Sum of evens"
+    ]
+  },
+  {
+    "id": 12,
+    "code": [
+      "let fruits = ['apple', 'banana'];",
+      "fruits.push('cherry');",
+      "console.log(fruits);",
+      "// Add a fruit"
+    ]
+  },
+  {
+    "id": 13,
+    "code": [
+      "let counter = 0;",
+      "while (counter < 3) {",
+      "  counter++;",
+      "}"
+    ]
+  },
+  {
+    "id": 14,
+    "code": [
+      "// Simple if condition",
+      "let age = 18;",
+      "if (age >= 18) console.log('Adult');",
+      "else console.log('Minor');"
+    ]
+  },
+  {
+    "id": 15,
+    "code": [
+      "const today = new Date();",
+      "console.log(today.getFullYear());",
+      "// Print current year",
+      "console.log('Date logged');"
+    ]
+  },
+  {
+    "id": 16,
+    "code": [
+      "function greet(name) {",
+      "  return `Hi, ${name}!`;",
+      "}",
+      "console.log(greet('Sam'));"
+    ]
+  },
+  {
+    "id": 17,
+    "code": [
+      "let num = 7;",
+      "let isEven = num % 2 === 0;",
+      "// Check even or odd",
+      "console.log(isEven);"
+    ]
+  },
+  {
+    "id": 18,
+    "code": [
+      "const arr = [10, 20, 30];",
+      "for (const val of arr) {",
+      "  console.log(val);",
+      "}"
+    ]
+  },
+  {
+    "id": 19,
+    "code": [
+      "let str = '  trim me  ';",
+      "let cleaned = str.trim();",
+      "// Remove spaces",
+      "console.log(cleaned);"
+    ]
+  },
+  {
+    "id": 20,
+    "code": [
+      "let temp = 25;",
+      "if (temp > 30) console.log('Hot');",
+      "else console.log('Cool');",
+      "// Temperature check"
+    ]
+  }
+]
