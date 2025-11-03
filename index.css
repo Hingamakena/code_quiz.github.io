@@ -9,10 +9,13 @@ body {
 	justify-content: space-between;
 }
 #main {
+	background-color: blue;
 	height: 100%;
 	width: 100%;
 }
 .answer_section {
+	background-color: white;
+	text-color: black;
 	flex: 1;
 	border: 1px solid black;
 }
@@ -21,4 +24,5 @@ body {
 	justify-content: space-between;
 	height: 70%;
 	width: 70%;
+	background-color: black;
 }
