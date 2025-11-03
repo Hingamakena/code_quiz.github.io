@@ -21,8 +21,10 @@ body {
 }
 #outer_div {
 	display: flex;
+	flex-direction: row;
 	justify-content: space-between;
 	height: 70%;
 	width: 70%;
 	background-color: black;
+	padding: 25px;
 }
