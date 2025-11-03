@@ -16,3 +16,9 @@ body {
 	flex: 1;
 	border: 1px solid black;
 }
+#outer_div {
+	display: flex;
+	justify-content: space-between;
+	height: 70%;
+	width: 70%;
+}
