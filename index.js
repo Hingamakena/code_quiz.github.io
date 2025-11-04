@@ -1,7 +1,9 @@
 const outerDiv = document.getElementById('outer_div');
 let dragged = null;
+let dragStartY = 0;
+let placeholder = null;
 
-// Make sections draggable and attach events
+// ----- DESKTOP DRAG & DROP -----
 document.querySelectorAll('.answer_section').forEach(div => {
   div.draggable = true;
 
@@ -16,40 +18,70 @@ document.querySelectorAll('.answer_section').forEach(div => {
   });
 
   div.addEventListener('dragover', e => {
-    e.preventDefault(); // allow drop
-  });
-
-  div.addEventListener('drop', e => {
     e.preventDefault();
-    if (dragged && dragged !== div) {
-      // Get all children
-      const all = Array.from(outerDiv.children);
-      const draggedIndex = all.indexOf(dragged);
-      const targetIndex = all.indexOf(div);
-
-      // Swap positions directly
-      if (draggedIndex < targetIndex) {
-        outerDiv.insertBefore(div, dragged); // move target before dragged
-        outerDiv.insertBefore(dragged, all[targetIndex + 1] || null); // move dragged to target's original position
-      } else {
-        outerDiv.insertBefore(dragged, div); // move dragged before target
-        outerDiv.insertBefore(div, all[draggedIndex + 1] || null); // move target to dragged's original position
-      }
+    const afterElement = getDragAfterElement(outerDiv, e.clientY);
+    if (afterElement == null) {
+      outerDiv.appendChild(dragged);
+    } else {
+      outerDiv.insertBefore(dragged, afterElement);
     }
   });
 });
 
-// Load the JSON file
+// helper for desktop drag
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll('.answer_section:not(.dragging)')];
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+
+// ----- TOUCH SUPPORT (for mobile) -----
+document.querySelectorAll('.answer_section').forEach(div => {
+  div.addEventListener('touchstart', e => {
+    dragged = div;
+    dragStartY = e.touches[0].clientY;
+    placeholder = document.createElement('div');
+    placeholder.classList.add('answer_section');
+    placeholder.style.visibility = 'hidden';
+    placeholder.style.height = `${div.offsetHeight}px`;
+    div.classList.add('dragging');
+  });
+
+  div.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const touchY = e.touches[0].clientY;
+    const afterElement = getDragAfterElement(outerDiv, touchY);
+    if (afterElement == null) {
+      outerDiv.appendChild(dragged);
+    } else {
+      outerDiv.insertBefore(dragged, afterElement);
+    }
+  });
+
+  div.addEventListener('touchend', () => {
+    dragged.classList.remove('dragging');
+    dragged = null;
+    placeholder = null;
+  });
+});
+
+
+// ----- LOAD DATA FROM JSON -----
 fetch('questions.json')
   .then(response => response.json())
   .then(data => {
     const snippet = data[0];
     const divs = document.querySelectorAll('.answer_section');
-
     snippet.code.forEach((line, index) => {
-      if (divs[index]) {
-        divs[index].textContent = line;
-      }
+      if (divs[index]) divs[index].textContent = line;
     });
   })
-  .catch(error => console.error('Error loading JSON:', error));
+  .catch(err => console.error('Error loading JSON:', err));
