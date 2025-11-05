@@ -1,9 +1,7 @@
 const outerDiv = document.getElementById('outer_div');
 let dragged = null;
-let dragStartY = 0;
-let placeholder = null;
 
-// ----- DESKTOP DRAG & DROP -----
+// ---------------------- DESKTOP DRAG & DROP ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
   div.draggable = true;
 
@@ -13,14 +11,14 @@ document.querySelectorAll('.answer_section').forEach(div => {
   });
 
   div.addEventListener('dragend', () => {
-    div.classList.remove('dragging');
+    dragged.classList.remove('dragging');
     dragged = null;
   });
 
   div.addEventListener('dragover', e => {
     e.preventDefault();
-    const afterElement = getDragAfterElement(outerDiv, e.clientY);
     if (!dragged) return;
+    const afterElement = getDragAfterElement(outerDiv, e.clientY);
     if (afterElement == null) {
       outerDiv.appendChild(dragged);
     } else {
@@ -29,7 +27,7 @@ document.querySelectorAll('.answer_section').forEach(div => {
   });
 });
 
-// helper for desktop drag (simplified + smoother)
+// Desktop helper: smooth reorder
 function getDragAfterElement(container, y) {
   const elements = [...container.querySelectorAll('.answer_section:not(.dragging)')];
   let closest = null;
@@ -37,8 +35,8 @@ function getDragAfterElement(container, y) {
 
   elements.forEach(el => {
     const box = el.getBoundingClientRect();
-    const offset = y - box.top;
-    if (offset < closestOffset && offset > 0) {
+    const offset = y - box.top - box.height / 2;
+    if (offset < closestOffset && offset > -box.height / 2) {
       closestOffset = offset;
       closest = el;
     }
@@ -46,39 +44,35 @@ function getDragAfterElement(container, y) {
   return closest;
 }
 
-
-// ----- TOUCH SUPPORT (for mobile) -----
+// ---------------------- MOBILE SWAP-ON-DROP ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('touchstart', e => {
     dragged = div;
-    dragStartY = e.touches[0].clientY;
-    placeholder = document.createElement('div');
-    placeholder.classList.add('answer_section');
-    placeholder.style.visibility = 'hidden';
-    placeholder.style.height = `${div.offsetHeight}px`;
-    div.classList.add('dragging');
+    dragged.classList.add('dragging');
   });
 
-  div.addEventListener('touchmove', e => {
-    e.preventDefault();
-    const touchY = e.touches[0].clientY;
-    const afterElement = getDragAfterElement(outerDiv, touchY);
-    if (afterElement == null) {
-      outerDiv.appendChild(dragged);
-    } else {
-      outerDiv.insertBefore(dragged, afterElement);
+  div.addEventListener('touchend', e => {
+    if (!dragged) return;
+
+    // Find element under finger on drop
+    const touch = e.changedTouches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.answer_section');
+
+    if (target && target !== dragged) {
+      // Swap dragged and target divs
+      const draggedNext = dragged.nextSibling === target ? dragged : dragged.nextSibling;
+      const targetNext = target.nextSibling === dragged ? target : target.nextSibling;
+
+      target.parentNode.insertBefore(dragged, targetNext);
+      target.parentNode.insertBefore(target, draggedNext);
     }
-  });
 
-  div.addEventListener('touchend', () => {
     dragged.classList.remove('dragging');
     dragged = null;
-    placeholder = null;
   });
 });
 
-
-// ----- LOAD DATA FROM JSON -----
+// ---------------------- LOAD DATA FROM JSON ----------------------
 fetch('questions.json')
   .then(response => response.json())
   .then(data => {
