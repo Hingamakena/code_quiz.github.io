@@ -2,181 +2,271 @@
   {
     "id": 1,
     "code": [
-      "let x = 5;",
-      "let y = 10;",
-      "let sum = x + y;",
-      "console.log(sum);"
-    ]
+      "console.log(sum);",
+      "let a = 5;",
+      "// sum of two numbers",
+      "let b = 10;"
+    ],
+    "correctOrder": [2, 1, 3, 0]
   },
   {
     "id": 2,
     "code": [
-      "// Calculate area of a rectangle",
-      "let width = 8;",
       "let height = 6;",
-      "console.log(width * height);"
-    ]
+      "// calculate area of rectangle",
+      "console.log(width * height);",
+      "let width = 8;"
+    ],
+    "correctOrder": [1, 3, 0, 2]
   },
   {
     "id": 3,
     "code": [
       "for (let i = 0; i < 3; i++) {",
-      "  console.log(i);",
       "}",
-      "// End of loop"
-    ]
+      "  console.log(i);",
+      "// loop through numbers"
+    ],
+    "correctOrder": [3, 0, 2, 1]
   },
   {
     "id": 4,
     "code": [
-      "const colors = ['red', 'green', 'blue'];",
       "colors.forEach(c => console.log(c));",
-      "// Loops through colors",
-      "console.log('Done');"
-    ]
+      "const colors = ['blue', 'green', 'red'];",
+      "// print colors",
+      "console.log('done');"
+    ],
+    "correctOrder": [2, 1, 0, 3]
   },
   {
     "id": 5,
     "code": [
-      "let name = 'Ava';",
+      "console.log(greeting);",
+      "// greet user",
       "let greeting = 'Hello ' + name;",
-      "// Display greeting",
-      "console.log(greeting);"
-    ]
+      "let name = 'Ava';"
+    ],
+    "correctOrder": [1, 3, 2, 0]
   },
   {
     "id": 6,
     "code": [
-      "function add(a, b) {",
-      "  return a + b;",
+      "console.log(add(3, 4));",
       "}",
-      "console.log(add(3, 4));"
-    ]
+      "return a + b;",
+      "function add(a, b) {"
+    ],
+    "correctOrder": [3, 2, 1, 0]
   },
   {
     "id": 7,
     "code": [
-      "let nums = [1, 2, 3];",
+      "// square numbers",
       "let squared = nums.map(n => n * n);",
-      "// Print result",
+      "let nums = [1, 2, 3];",
       "console.log(squared);"
-    ]
+    ],
+    "correctOrder": [0, 2, 1, 3]
   },
   {
     "id": 8,
     "code": [
       "const obj = { name: 'Max', age: 25 };",
+      "// increment age",
       "obj.age++;",
-      "console.log(obj);",
-      "// Age incremented"
-    ]
+      "console.log(obj);"
+    ],
+    "correctOrder": [1, 0, 2, 3]
   },
   {
     "id": 9,
     "code": [
-      "let text = 'JavaScript';",
-      "let upper = text.toUpperCase();",
       "console.log(upper);",
-      "// Convert to uppercase"
-    ]
+      "let text = 'JavaScript';",
+      "// convert to uppercase",
+      "let upper = text.toUpperCase();"
+    ],
+    "correctOrder": [2, 1, 3, 0]
   },
   {
     "id": 10,
     "code": [
-      "let a = 10, b = 2;",
       "let div = a / b;",
-      "console.log(div);",
-      "// Division result"
-    ]
+      "// division",
+      "let a = 10, b = 2;",
+      "console.log(div);"
+    ],
+    "correctOrder": [1, 2, 0, 3]
   },
   {
     "id": 11,
     "code": [
-      "const even = [2, 4, 6, 8];",
       "const total = even.reduce((a, b) => a + b);",
+      "// sum of evens",
       "console.log(total);",
-      "// Sum of evens"
-    ]
+      "const even = [2, 4, 6, 8];"
+    ],
+    "correctOrder": [1, 3, 0, 2]
   },
   {
     "id": 12,
     "code": [
-      "let fruits = ['apple', 'banana'];",
+      "// add a fruit",
       "fruits.push('cherry');",
       "console.log(fruits);",
-      "// Add a fruit"
-    ]
+      "let fruits = ['apple', 'banana'];"
+    ],
+    "correctOrder": [0, 3, 1, 2]
   },
   {
     "id": 13,
     "code": [
-      "let counter = 0;",
       "while (counter < 3) {",
-      "  counter++;",
-      "}"
-    ]
+      "// simple counter loop",
+      "counter++;",
+      "let counter = 0;"
+    ],
+    "correctOrder": [1, 3, 0, 2]
   },
   {
     "id": 14,
     "code": [
-      "// Simple if condition",
-      "let age = 18;",
       "if (age >= 18) console.log('Adult');",
-      "else console.log('Minor');"
-    ]
+      "// check age",
+      "else console.log('Minor');",
+      "let age = 18;"
+    ],
+    "correctOrder": [1, 3, 0, 2]
   },
   {
     "id": 15,
     "code": [
-      "const today = new Date();",
+      "// print year",
       "console.log(today.getFullYear());",
-      "// Print current year",
-      "console.log('Date logged');"
-    ]
+      "console.log('Date logged');",
+      "const today = new Date();"
+    ],
+    "correctOrder": [0, 3, 1, 2]
   },
   {
     "id": 16,
     "code": [
+      "console.log(greet('Sam'));",
       "function greet(name) {",
       "  return `Hi, ${name}!`;",
-      "}",
-      "console.log(greet('Sam'));"
-    ]
+      "// greet function"
+    ],
+    "correctOrder": [3, 1, 2, 0]
   },
   {
     "id": 17,
     "code": [
+      "console.log(isEven);",
       "let num = 7;",
-      "let isEven = num % 2 === 0;",
-      "// Check even or odd",
-      "console.log(isEven);"
-    ]
+      "// check even",
+      "let isEven = num % 2 === 0;"
+    ],
+    "correctOrder": [2, 1, 3, 0]
   },
   {
     "id": 18,
     "code": [
-      "const arr = [10, 20, 30];",
+      "// loop through array",
       "for (const val of arr) {",
       "  console.log(val);",
-      "}"
-    ]
+      "const arr = [10, 20, 30];"
+    ],
+    "correctOrder": [0, 3, 1, 2]
   },
   {
     "id": 19,
     "code": [
+      "// trim spaces",
       "let str = '  trim me  ';",
       "let cleaned = str.trim();",
-      "// Remove spaces",
       "console.log(cleaned);"
-    ]
+    ],
+    "correctOrder": [0, 1, 2, 3]
   },
   {
     "id": 20,
     "code": [
       "let temp = 25;",
-      "if (temp > 30) console.log('Hot');",
       "else console.log('Cool');",
-      "// Temperature check"
-    ]
+      "// temperature check",
+      "if (temp > 30) console.log('Hot');"
+    ],
+    "correctOrder": [2, 0, 3, 1]
+  },
+  {
+    "id": 21,
+    "code": [
+      "let c = 15;",
+      "// simple assignment",
+      "let d = 5;",
+      "console.log(c + d);"
+    ],
+    "correctOrder": [1, 0, 2, 3]
+  },
+  {
+    "id": 22,
+    "code": [
+      "let arr = [3, 1, 2];",
+      "// sort array",
+      "arr.sort((a, b) => a - b);",
+      "console.log(arr);"
+    ],
+    "correctOrder": [1, 0, 2, 3]
+  },
+  {
+    "id": 23,
+    "code": [
+      "// toggle boolean",
+      "let flag = false;",
+      "flag = !flag;",
+      "console.log(flag);"
+    ],
+    "correctOrder": [0, 1, 2, 3]
+  },
+  {
+    "id": 24,
+    "code": [
+      "let text = 'hello';",
+      "// convert to uppercase",
+      "let upperText = text.toUpperCase();",
+      "console.log(upperText);"
+    ],
+    "correctOrder": [1, 0, 2, 3]
+  },
+  {
+    "id": 25,
+    "code": [
+      "// reverse array",
+      "let arr = [1, 2, 3];",
+      "arr.reverse();",
+      "console.log(arr);"
+    ],
+    "correctOrder": [0, 1, 2, 3]
+  },
+  {
+    "id": 26,
+    "code": [
+      "// check string length",
+      "let str = 'OpenAI';",
+      "console.log(str.length);",
+      "let len = str.length;"
+    ],
+    "correctOrder": [0, 1, 3, 2]
+  },
+  {
+    "id": 27,
+    "code": [
+      "console.log(max);",
+      "let arr = [5, 9, 2];",
+      "let max = Math.max(...arr);",
+      "// find maximum"
+    ],
+    "correctOrder": [3, 1, 2, 0]
   }
 ]
