@@ -3,25 +3,31 @@ let dragged = null;
 let placeholder = null;
 let dragGhost = null;
 
-// ---------------------- DESKTOP DRAG & DROP (Smooth) ----------------------
+// ---------------------- DESKTOP DRAG & DROP (Smooth & Correct) ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
   div.draggable = true;
 
   div.addEventListener('dragstart', e => {
     dragged = div;
+    dragged.classList.add('dragging');
 
-    // Create placeholder
+    // Hide dragged element visually while using placeholder
+    div.style.display = 'none';
+
+    // Create placeholder for spacing
     placeholder = document.createElement('div');
     placeholder.className = 'answer_section placeholder';
     placeholder.style.height = `${div.offsetHeight}px`;
     outerDiv.insertBefore(placeholder, div.nextSibling);
 
-    div.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', '');
   });
 
   div.addEventListener('dragend', () => {
+    // Show dragged element again
+    dragged.style.display = '';
+
     if (placeholder) {
       outerDiv.replaceChild(dragged, placeholder);
       placeholder = null;
@@ -51,7 +57,7 @@ document.querySelectorAll('.answer_section').forEach(div => {
     dragged = div;
     dragged.classList.add('dragging');
 
-    // Create drag ghost
+    // Create ghost for finger dragging
     dragGhost = div.cloneNode(true);
     dragGhost.style.position = 'absolute';
     dragGhost.style.pointerEvents = 'none';
