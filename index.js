@@ -47,40 +47,34 @@ function getDragAfterElement(container, y) {
 }
 
 // ----- TOUCH SUPPORT (for mobile) -----
+// ----- MOBILE TOUCH: swap on drop -----
 document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('touchstart', e => {
     dragged = div;
-    dragStartY = e.touches[0].clientY;
-    placeholder = document.createElement('div');
-    placeholder.classList.add('answer_section');
-    placeholder.style.visibility = 'hidden';
-    placeholder.style.height = `${div.offsetHeight}px`;
-    div.classList.add('dragging');
+    dragged.classList.add('dragging');
   });
 
-  div.addEventListener('touchmove', e => {
-    e.preventDefault();
+  div.addEventListener('touchend', e => {
     if (!dragged) return;
 
-    const touchY = e.touches[0].clientY;
-    const afterElement = getDragAfterElement(outerDiv, touchY);
+    // Find the element currently under the finger
+    const touch = e.changedTouches[0];
+    const target = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.answer_section');
 
-    // Only move if it actually changes position
-    if (afterElement !== dragged.nextSibling) {
-      if (afterElement == null) {
-        outerDiv.appendChild(dragged);
-      } else {
-        outerDiv.insertBefore(dragged, afterElement);
-      }
+    if (target && target !== dragged) {
+      // Swap positions of dragged and target divs
+      const draggedNext = dragged.nextSibling === target ? dragged : dragged.nextSibling;
+      const targetNext = target.nextSibling === dragged ? target : target.nextSibling;
+
+      target.parentNode.insertBefore(dragged, targetNext);
+      target.parentNode.insertBefore(target, draggedNext);
     }
-  });
 
-  div.addEventListener('touchend', () => {
-    if (dragged) dragged.classList.remove('dragging');
+    dragged.classList.remove('dragging');
     dragged = null;
-    placeholder = null;
   });
 });
+
 
   
 // ----- LOAD DATA FROM JSON -----
