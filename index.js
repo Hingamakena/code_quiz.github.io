@@ -20,6 +20,7 @@ document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('dragover', e => {
     e.preventDefault();
     const afterElement = getDragAfterElement(outerDiv, e.clientY);
+    if (!dragged) return;
     if (afterElement == null) {
       outerDiv.appendChild(dragged);
     } else {
@@ -28,18 +29,21 @@ document.querySelectorAll('.answer_section').forEach(div => {
   });
 });
 
-// helper for desktop drag
+// helper for desktop drag (simplified + smoother)
 function getDragAfterElement(container, y) {
-  const draggableElements = [...container.querySelectorAll('.answer_section:not(.dragging)')];
-  return draggableElements.reduce((closest, child) => {
-    const box = child.getBoundingClientRect();
-    const offset = y - box.top - box.height / 2;
-    if (offset < 0 && offset > closest.offset) {
-      return { offset, element: child };
-    } else {
-      return closest;
+  const elements = [...container.querySelectorAll('.answer_section:not(.dragging)')];
+  let closest = null;
+  let closestOffset = Number.POSITIVE_INFINITY;
+
+  elements.forEach(el => {
+    const box = el.getBoundingClientRect();
+    const offset = y - box.top;
+    if (offset < closestOffset && offset > 0) {
+      closestOffset = offset;
+      closest = el;
     }
-  }, { offset: Number.NEGATIVE_INFINITY }).element;
+  });
+  return closest;
 }
 
 
