@@ -1,6 +1,5 @@
 const outerDiv = document.getElementById('outer_div');
 let dragged = null;
-let placeholder = null;
 let dragGhost = null;
 
 // ---------------------- DESKTOP DRAG & DROP ----------------------
@@ -9,41 +8,43 @@ document.querySelectorAll('.answer_section').forEach(div => {
 
   div.addEventListener('dragstart', e => {
     dragged = div;
-    dragged.classList.add('dragging');
-
-    // Create placeholder
-    placeholder = document.createElement('div');
-    placeholder.className = 'answer_section placeholder';
-    placeholder.style.height = `${div.offsetHeight}px`;
-    outerDiv.insertBefore(placeholder, div.nextSibling);
-
+    div.classList.add('dragging');
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', '');
   });
 
   div.addEventListener('dragend', () => {
-    if (placeholder) {
-      outerDiv.replaceChild(dragged, placeholder);
-      placeholder = null;
-    }
     dragged.classList.remove('dragging');
     dragged = null;
   });
-
-  div.addEventListener('dragover', e => {
-    e.preventDefault();
-    if (!dragged || !placeholder) return;
-
-    const rect = div.getBoundingClientRect();
-    const next = (e.clientY - rect.top) > rect.height / 2;
-
-    if (next && div.nextSibling !== placeholder) {
-      outerDiv.insertBefore(placeholder, div.nextSibling);
-    } else if (!next && div !== placeholder.nextSibling) {
-      outerDiv.insertBefore(placeholder, div);
-    }
-  });
 });
+
+// Dragover on container for smooth reordering
+outerDiv.addEventListener('dragover', e => {
+  e.preventDefault();
+  if (!dragged) return;
+
+  const afterElement = getDragAfterElement(outerDiv, e.clientY);
+  if (!afterElement) {
+    outerDiv.appendChild(dragged);
+  } else {
+    outerDiv.insertBefore(dragged, afterElement);
+  }
+});
+
+// Helper: find closest element to mouse
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll('.answer_section:not(.dragging)')];
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
 
 // ---------------------- MOBILE SWAP-ON-DROP ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
