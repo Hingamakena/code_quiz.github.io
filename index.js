@@ -1,36 +1,46 @@
 const outerDiv = document.getElementById('outer_div');
 let dragged = null;
+let placeholder = null;
 let dragGhost = null;
 
-// ---------------------- DESKTOP DRAG & DROP ----------------------
+// ---------------------- DESKTOP DRAG & DROP (Smooth) ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
   div.draggable = true;
 
-  div.addEventListener('dragstart', () => {
+  div.addEventListener('dragstart', e => {
     dragged = div;
-    dragged.classList.add('dragging');
+
+    // Create placeholder
+    placeholder = document.createElement('div');
+    placeholder.className = 'answer_section placeholder';
+    placeholder.style.height = `${div.offsetHeight}px`;
+    outerDiv.insertBefore(placeholder, div.nextSibling);
+
+    div.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', '');
   });
 
   div.addEventListener('dragend', () => {
+    if (placeholder) {
+      outerDiv.replaceChild(dragged, placeholder);
+      placeholder = null;
+    }
     dragged.classList.remove('dragging');
     dragged = null;
   });
 
   div.addEventListener('dragover', e => {
     e.preventDefault();
-    if (!dragged) return;
+    if (!dragged || !placeholder) return;
 
-    const children = [...outerDiv.children].filter(c => c !== dragged);
-    let insertBefore = children.find(child => e.clientY < child.getBoundingClientRect().top + child.offsetHeight / 2);
+    const rect = div.getBoundingClientRect();
+    const next = (e.clientY - rect.top) > rect.height / 2;
 
-    if (insertBefore) {
-      if (dragged.nextSibling !== insertBefore) {
-        outerDiv.insertBefore(dragged, insertBefore);
-      }
-    } else {
-      if (outerDiv.lastElementChild !== dragged) {
-        outerDiv.appendChild(dragged);
-      }
+    if (next && div.nextSibling !== placeholder) {
+      outerDiv.insertBefore(placeholder, div.nextSibling);
+    } else if (!next && div !== placeholder.nextSibling) {
+      outerDiv.insertBefore(placeholder, div);
     }
   });
 });
