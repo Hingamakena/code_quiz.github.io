@@ -46,36 +46,38 @@ function getDragAfterElement(container, y) {
   return closest;
 }
 
-// ----- MOBILE TOUCH: swap on drop -----
+
+// ----- TOUCH SUPPORT (for mobile) -----
 document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('touchstart', e => {
     dragged = div;
-    dragged.classList.add('dragging');
+    dragStartY = e.touches[0].clientY;
+    placeholder = document.createElement('div');
+    placeholder.classList.add('answer_section');
+    placeholder.style.visibility = 'hidden';
+    placeholder.style.height = `${div.offsetHeight}px`;
+    div.classList.add('dragging');
   });
 
-  div.addEventListener('touchend', e => {
-    if (!dragged) return;
-
-    // Find the element currently under the finger
-    const touch = e.changedTouches[0];
-    const target = document.elementFromPoint(touch.clientX, touch.clientY)?.closest('.answer_section');
-
-    if (target && target !== dragged) {
-      // Swap positions of dragged and target divs
-      const draggedNext = dragged.nextSibling === target ? dragged : dragged.nextSibling;
-      const targetNext = target.nextSibling === dragged ? target : target.nextSibling;
-
-      target.parentNode.insertBefore(dragged, targetNext);
-      target.parentNode.insertBefore(target, draggedNext);
+  div.addEventListener('touchmove', e => {
+    e.preventDefault();
+    const touchY = e.touches[0].clientY;
+    const afterElement = getDragAfterElement(outerDiv, touchY);
+    if (afterElement == null) {
+      outerDiv.appendChild(dragged);
+    } else {
+      outerDiv.insertBefore(dragged, afterElement);
     }
+  });
 
+  div.addEventListener('touchend', () => {
     dragged.classList.remove('dragging');
     dragged = null;
+    placeholder = null;
   });
 });
 
 
-  
 // ----- LOAD DATA FROM JSON -----
 fetch('questions.json')
   .then(response => response.json())
