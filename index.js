@@ -3,7 +3,7 @@ let dragged = null;
 let placeholder = null;
 let dragGhost = null;
 
-// ---------------------- DESKTOP DRAG & DROP (Smooth & Correct) ----------------------
+// ---------------------- DESKTOP DRAG & DROP ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
   div.draggable = true;
 
@@ -11,10 +11,7 @@ document.querySelectorAll('.answer_section').forEach(div => {
     dragged = div;
     dragged.classList.add('dragging');
 
-    // Hide dragged element visually while using placeholder
-    div.style.display = 'none';
-
-    // Create placeholder for spacing
+    // Create placeholder
     placeholder = document.createElement('div');
     placeholder.className = 'answer_section placeholder';
     placeholder.style.height = `${div.offsetHeight}px`;
@@ -25,9 +22,6 @@ document.querySelectorAll('.answer_section').forEach(div => {
   });
 
   div.addEventListener('dragend', () => {
-    // Show dragged element again
-    dragged.style.display = '';
-
     if (placeholder) {
       outerDiv.replaceChild(dragged, placeholder);
       placeholder = null;
@@ -51,13 +45,12 @@ document.querySelectorAll('.answer_section').forEach(div => {
   });
 });
 
-// ---------------------- MOBILE SWAP-ON-DROP WITH GHOST ----------------------
+// ---------------------- MOBILE SWAP-ON-DROP ----------------------
 document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('touchstart', e => {
     dragged = div;
     dragged.classList.add('dragging');
 
-    // Create ghost for finger dragging
     dragGhost = div.cloneNode(true);
     dragGhost.style.position = 'absolute';
     dragGhost.style.pointerEvents = 'none';
@@ -103,12 +96,12 @@ function moveGhost(touch) {
 
 // ---------------------- LOAD DATA FROM JSON ----------------------
 fetch('questions.json')
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
     const snippet = data[0];
     const divs = document.querySelectorAll('.answer_section');
-    snippet.code.forEach((line, index) => {
-      if (divs[index]) divs[index].textContent = line;
+    snippet.code.forEach((line, i) => {
+      if (divs[i]) divs[i].textContent = line;
     });
   })
   .catch(err => console.error('Error loading JSON:', err));
