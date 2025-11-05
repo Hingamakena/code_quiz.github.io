@@ -46,7 +46,6 @@ function getDragAfterElement(container, y) {
   return closest;
 }
 
-// ----- TOUCH SUPPORT (for mobile) -----
 // ----- MOBILE TOUCH: swap on drop -----
 document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('touchstart', e => {
