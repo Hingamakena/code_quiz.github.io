@@ -46,7 +46,6 @@ function getDragAfterElement(container, y) {
   return closest;
 }
 
-
 // ----- TOUCH SUPPORT (for mobile) -----
 document.querySelectorAll('.answer_section').forEach(div => {
   div.addEventListener('touchstart', e => {
@@ -61,23 +60,29 @@ document.querySelectorAll('.answer_section').forEach(div => {
 
   div.addEventListener('touchmove', e => {
     e.preventDefault();
+    if (!dragged) return;
+
     const touchY = e.touches[0].clientY;
     const afterElement = getDragAfterElement(outerDiv, touchY);
-    if (afterElement == null) {
-      outerDiv.appendChild(dragged);
-    } else {
-      outerDiv.insertBefore(dragged, afterElement);
+
+    // Only move if it actually changes position
+    if (afterElement !== dragged.nextSibling) {
+      if (afterElement == null) {
+        outerDiv.appendChild(dragged);
+      } else {
+        outerDiv.insertBefore(dragged, afterElement);
+      }
     }
   });
 
   div.addEventListener('touchend', () => {
-    dragged.classList.remove('dragging');
+    if (dragged) dragged.classList.remove('dragging');
     dragged = null;
     placeholder = null;
   });
 });
 
-
+  
 // ----- LOAD DATA FROM JSON -----
 fetch('questions.json')
   .then(response => response.json())
