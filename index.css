@@ -32,3 +32,11 @@ main {
 	background-color: black;
 	box-sizing: border-box;
 }
+#instruction {
+	font-size: 35px;
+	text-align: center;
+}
+#disclaimer {
+	font-size: 30px;
+	text-align: center;
+}
