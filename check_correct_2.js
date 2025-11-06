@@ -17,7 +17,7 @@ function enableDesktopDrag(container) {
     });
 
     div.addEventListener('dragend', () => {
-      dragged.classList.remove('dragging');
+      div.classList.remove('dragging');
       dragged = null;
       checkOrder();
     });
@@ -36,7 +36,7 @@ function enableDesktopDrag(container) {
   });
 }
 
-// Helper: find closest element to mouse
+// Helper
 function getDragAfterElement(container, y) {
   const draggableElements = [...container.querySelectorAll('.answer_section:not(.dragging)')];
   return draggableElements.reduce((closest, child) => {
@@ -103,13 +103,13 @@ function moveGhost(touch) {
   dragGhost.style.top = `${touch.clientY - dragGhost.offsetHeight / 2}px`;
 }
 
-// ---------------------- LOAD QUESTIONS FROM JSON ----------------------
+// ---------------------- LOAD QUESTIONS ----------------------
 async function loadQuestions() {
   try {
     const res = await fetch('questions.json');
     const data = await res.json();
 
-    // Shuffle questions
+    // Shuffle question order
     questions = shuffleArray(data);
     currentQuestion = 0;
 
@@ -121,39 +121,41 @@ async function loadQuestions() {
 
 function loadQuestion(index) {
   const snippet = questions[index];
-  const divs = document.querySelectorAll('.answer_section');
+  const shuffledLines = shuffleArray([...snippet.code]); // display lines shuffled
 
-  // Shuffle lines for display
-  const shuffledLines = shuffleArray([...snippet.code]);
-
-  snippet.shuffled = shuffledLines; // save for reference
-  divs.forEach((div, i) => {
-    div.textContent = shuffledLines[i] || '';
+  outerDiv.innerHTML = ''; // clear previous question
+  shuffledLines.forEach(line => {
+    const div = document.createElement('div');
+    div.classList.add('answer_section');
+    div.textContent = line;
+    outerDiv.appendChild(div);
   });
 
-  console.log(`Question ${index + 1} loaded`);
+  enableDesktopDrag(outerDiv);
+  enableMobileSwap();
+
+  console.log(`✅ Loaded question ${index + 1}`);
 }
 
-// ---------------------- CHECK ORDER & NEXT QUESTION ----------------------
+// ---------------------- CHECK ORDER ----------------------
 function checkOrder() {
   if (!questions.length) return;
 
   const snippet = questions[currentQuestion];
-  const divs = [...outerDiv.querySelectorAll('.answer_section')];
+  const userOrder = [...outerDiv.querySelectorAll('.answer_section')].map(div => div.textContent.trim());
+  const correctOrder = snippet.code.map(line => line.trim());
 
-  const currentLines = divs.map(div => div.textContent.trim());
-  const correctLines = snippet.code.map(line => line.trim());
-
-  const isCorrect = currentLines.length === correctLines.length &&
-                    currentLines.every((line, idx) => line === correctLines[idx]);
+  const isCorrect = userOrder.length === correctOrder.length &&
+                    userOrder.every((line, i) => line === correctOrder[i]);
 
   if (isCorrect) {
+    console.log(`✅ Question ${currentQuestion + 1} correct!`);
     setTimeout(() => {
       currentQuestion++;
       if (currentQuestion < questions.length) {
         loadQuestion(currentQuestion);
       } else {
-        alert("🎉 Level one complete, congratulations!");
+        alert('🎉 Level one complete, congratulations!');
       }
     }, 400);
   }
@@ -168,8 +170,4 @@ function shuffleArray(array) {
 }
 
 // ---------------------- INITIALIZE ----------------------
-window.addEventListener('DOMContentLoaded', async () => {
-  enableDesktopDrag(outerDiv);
-  enableMobileSwap();
-  await loadQuestions();
-});
+window.addEventListener('DOMContentLoaded', loadQuestions);
