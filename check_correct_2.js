@@ -110,14 +110,6 @@ async function loadQuestions() {
     // Shuffle questions
     data = data.sort(() => Math.random() - 0.5);
 
-    // Shuffle lines per question and store correct order
-    data.forEach(q => {
-      const indices = q.code.map((_, i) => i);
-      const shuffledIndices = indices.sort(() => Math.random() - 0.5);
-      q.shuffledCode = shuffledIndices.map(i => q.code[i]);
-      q.correctOrder = shuffledIndices.map(i => indices.indexOf(i));
-    });
-
     questions = data;
     loadQuestion(currentQuestion);
   } catch (err) {
@@ -128,9 +120,14 @@ async function loadQuestions() {
 function loadQuestion(index) {
   const snippet = questions[index];
   const divs = document.querySelectorAll('.answer_section');
-  snippet.shuffledCode.forEach((line, i) => {
+
+  // Shuffle lines visually, but keep original for check
+  const shuffledLines = [...snippet.code].sort(() => Math.random() - 0.5);
+
+  shuffledLines.forEach((line, i) => {
     if (divs[i]) divs[i].textContent = line;
   });
+
   console.log(`Question ${index + 1} loaded`);
 }
 
@@ -142,10 +139,7 @@ function checkOrder() {
   const divs = [...outerDiv.querySelectorAll('.answer_section')];
   const currentLines = divs.map(div => div.textContent.trim());
 
-  // Correct lines based on shuffled correct order
-  const correctLines = snippet.correctOrder.map(i => snippet.shuffledCode[i].trim());
-
-  const isCorrect = JSON.stringify(currentLines) === JSON.stringify(correctLines);
+  const isCorrect = currentLines.join('\n') === snippet.code.join('\n');
 
   if (isCorrect) {
     setTimeout(() => {
