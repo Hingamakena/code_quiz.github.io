@@ -2,46 +2,77 @@ html, body {
   margin: 0;
   height: 100dvh;
   overflow: hidden;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: #e0e0e0;
+  background-color: #0b0f1a;
 }
 main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #ADD8E6;
+	background-color: radial-gradient(circle at top, #1a2238 0%, #0b0f1a 80%);
 	flex-direction: column;
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
 }
 .answer_section {
-	background-color: white;
-	color: black;
+	background-color: #1c2536;
+	color: #f0f0f0;
 	flex: 1;
-	border: 1px solid black;
+	border-radius: 10px;
 	display: flex;
     justify-content: center;
     align-items: center;
-	font-size: 35px;
+	margin: 8px 0;
+	font-size: 28px;
+	transition: all 0.3s ease;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.answer_section:hover {
+  background-color: #242f45;
+  box-shadow: 0 0 12px rgba(0, 188, 212, 0.4);
+  transform: scale(1.02);
 }
 #outer_div {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 70%;
+	height: 65%;
 	width: 70%;
 	background-color: black;
 	box-sizing: border-box;
+	background: linear-gradient(180deg, #111827, #0f1626);
+	border-radius: 16px;
+	box-shadow: 0 0 25px rgba(0, 255, 255, 0.08);
+	padding: 20px;
+	box-sizing: border-box;
+	border: 1px solid rgba(0, 255, 255, 0.15);
 }
 #instructions {
 	font-size: 35px;
 	text-align: center;
+	color: #a0a0a0;
+	max-width: 70%;
+	line-height: 1.5;
+	margin-bottom: 30px;
 }
 #disclaimer {
-	font-size: 30px;
+	font-size: 20px;
+	color: #888;
 	text-align: center;
+	margin-top: 25px;
+	letter-spacing: 0.5px
 }
 header {
 	text-align: center;
 	font-weight: bold;
 	font-size: 38px;
+	color: #00bcd4; /* cyan accent */
+	text-shadow: 0 0 12px rgba(0, 188, 212, 0.6);
+	margin-bottom: 10px;
+	letter-spacing: 1px;
+}
+* {
+  transition: all 0.25s ease-in-out;
 }
